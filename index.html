@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🏆 Cinematic Random Name Picker | Live TV Lottery & Award Show</title>
+  
+  <!-- SEO & Social Meta Tags -->
+  <meta name="description" content="A production-quality, cinematic random name selector designed like a live TV lottery draw and award show with glowing cyber visuals, 3D suspense FX, and sound synthesis.">
+  <meta name="keywords" content="random name picker, lottery draw, classroom picker, award show generator, wheel of names">
+  
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400;1,700&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Animated Canvas (Particles & Ambient Beams) -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Celebration FX Overlay Canvas (Confetti, Fireworks, Sparks) -->
+  <canvas id="fx-canvas"></canvas>
+
+  <!-- Ambient Light Beams & Spotlights -->
+  <div class="light-beam light-beam-1"></div>
+  <div class="light-beam light-beam-2"></div>
+  <div class="spotlight-overlay" id="spotlight-overlay"></div>
+  <div class="golden-flash" id="golden-flash"></div>
+
+  <!-- Main Application Container -->
+  <div class="app-viewport">
+    
+    <!-- Top Header Bar -->
+    <header class="cyber-header">
+      <div class="live-badge">
+        <span class="pulse-dot"></span>
+        <span class="badge-text">LIVE SELECTION</span>
+      </div>
+      <h1 class="main-title">
+        <span class="trophy-emoji">🏆</span>
+        <span class="title-gradient">RANDOM NAME SELECTOR</span>
+      </h1>
+      <div class="header-controls-wrapper">
+        <button id="manage-names-btn" class="glass-icon-btn glass-pill-btn" title="Manage Names Pool" aria-label="Manage Names Pool">
+          <span class="icon">⚙️</span>
+          <span class="btn-text-sm">Manage Names</span>
+        </button>
+        <button id="mute-btn" class="glass-icon-btn" title="Toggle Sound" aria-label="Toggle Sound">
+          <span id="mute-icon" class="icon">🔊</span>
+          <span class="btn-tooltip">Sound ON</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Content Grid Layout -->
+    <div class="main-layout-grid">
+      
+      <!-- Center Main Selection Stage Card -->
+      <section class="glass-card stage-card" id="stage-card">
+        
+        <div class="stage-top-bar">
+          <div class="floating-trophy-container" id="floating-trophy-wrapper">
+            <div class="floating-trophy" id="floating-trophy">🏆</div>
+          </div>
+          <div class="stage-status-badge" id="stage-status-badge">
+            <span class="status-indicator-dot"></span>
+            <span id="stage-status-label">READY FOR DRAW</span>
+          </div>
+        </div>
+
+        <!-- Name Display Area -->
+        <div class="name-stage-box" id="name-stage-box">
+          
+          <!-- Animated Rotating Neon Ring -->
+          <div class="neon-ring" id="neon-ring"></div>
+          <div class="neon-ring-inner"></div>
+          
+          <!-- Shockwave Energy Ring -->
+          <div class="shockwave-ring" id="shockwave-ring"></div>
+
+          <!-- Countdown Overlay (3... 2... 1...) -->
+          <div class="countdown-overlay" id="countdown-overlay">
+            <span id="countdown-text"></span>
+          </div>
+
+          <!-- Central Name Box -->
+          <div class="name-display-content">
+            <div class="winner-congrats-label" id="winner-congrats-label">
+              <span class="sparkle-star">✨</span> WINNER ANNOUNCED <span class="sparkle-star">✨</span>
+            </div>
+            
+            <div class="name-text-wrapper">
+              <h2 id="name-text" class="name-text idle-state">PRESS START DRAW</h2>
+            </div>
+            
+            <div class="winner-subtitle" id="winner-subtitle">
+              Congratulations! You have been selected!
+            </div>
+          </div>
+
+          <!-- Subtle Scanline FX -->
+          <div class="scanlines"></div>
+        </div>
+
+        <!-- Dynamic Fading Status Messages -->
+        <div class="status-message-container">
+          <p id="status-text" class="status-text">System Initialized & Ready</p>
+        </div>
+
+        <!-- Control Action Buttons -->
+        <div class="action-buttons-group">
+          <button id="start-btn" class="glass-btn btn-primary">
+            <span class="btn-glow"></span>
+            <span class="btn-content">
+              <span class="btn-icon">🎲</span>
+              <span class="btn-text">START DRAW</span>
+            </span>
+          </button>
+
+          <button id="reset-btn" class="glass-btn btn-secondary">
+            <span class="btn-content">
+              <span class="btn-icon">🔄</span>
+              <span class="btn-text">RESET</span>
+            </span>
+          </button>
+        </div>
+
+        <!-- Live Statistics Counter Bar -->
+        <div class="stats-bar">
+          <div class="stat-card">
+            <span class="stat-label">Total Names</span>
+            <span class="stat-value" id="stat-total">70</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-card highlight-selected">
+            <span class="stat-label">Selected</span>
+            <span class="stat-value" id="stat-selected">0</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-card highlight-remaining">
+            <span class="stat-label">Remaining</span>
+            <span class="stat-value" id="stat-remaining">70</span>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Right Side Cyber Dancer Mascot Panel -->
+      <aside class="glass-card history-card dancer-only-panel" id="history-panel">
+
+        <!-- Cyber Dancer Mascot Stage -->
+        <div class="dance-stage-wrapper dance-stage-full" id="dance-stage-wrapper">
+          <div class="dance-stage-floor" id="dance-stage-floor"></div>
+          
+          <!-- Floating Music Notes FX -->
+          <div class="floating-notes-container" id="floating-notes-container">
+            <span class="music-note note-1">🎵</span>
+            <span class="music-note note-2">🎶</span>
+            <span class="music-note note-3">✨</span>
+            <span class="music-note note-4">⚡</span>
+            <span class="music-note note-5">🎼</span>
+            <span class="music-note note-6">🎧</span>
+          </div>
+
+          <!-- Animated Cyber Dancer Mascot -->
+          <div class="cyber-dancer-avatar idle" id="cyber-dancer-avatar">
+            <div class="dancer-crown" id="dancer-crown">👑</div>
+            <div class="dancer-head">
+              <div class="dancer-headphones"></div>
+              <div class="dancer-visor">
+                <span class="visor-eyes"></span>
+              </div>
+            </div>
+            <div class="dancer-body">
+              <div class="dancer-arm arm-left"></div>
+              <div class="dancer-torso">
+                <div class="equalizer-bars">
+                  <span class="eq-bar bar-1"></span>
+                  <span class="eq-bar bar-2"></span>
+                  <span class="eq-bar bar-3"></span>
+                </div>
+              </div>
+              <div class="dancer-arm arm-right"></div>
+            </div>
+            <div class="dancer-legs">
+              <div class="dancer-leg leg-left"></div>
+              <div class="dancer-leg leg-right"></div>
+            </div>
+          </div>
+
+          <!-- Dance Status Caption -->
+          <div class="dancer-status-caption" id="dancer-status-caption">
+            <span id="dancer-status-text">Mascot Ready to Groove 🎧</span>
+          </div>
+        </div>
+
+        <!-- Hidden list kept for JS compatibility -->
+        <ul id="winners-list" style="display:none;"></ul>
+      </aside>
+
+    </div>
+
+  </div>
+
+  <!-- Completion Modal Screen (When all 70 names are drawn) -->
+  <div class="completion-modal-overlay" id="completion-modal">
+    <div class="glass-card completion-card">
+      <div class="modal-trophy">🎉</div>
+      <h2 class="modal-title">EVERYONE HAS BEEN SELECTED!</h2>
+      <p class="modal-desc">All 70 candidate names have been drawn in this live session. The lottery complete list is now archived in the history panel.</p>
+      <button id="modal-reset-btn" class="glass-btn btn-primary modal-btn">
+        <span class="btn-content">
+          <span class="btn-icon">🔄</span>
+          <span class="btn-text">RESET ALL NAMES (70)</span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Manage Names Modal Overlay -->
+  <div class="completion-modal-overlay" id="names-modal">
+    <div class="glass-card names-modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title">
+          <span>⚙️</span> MANAGE NAME POOL
+        </h2>
+        <button id="close-names-modal-btn" class="close-modal-btn" aria-label="Close">✕</button>
+      </div>
+
+      <!-- Single Add Section -->
+      <div class="input-section">
+        <label for="single-name-input" class="section-label">Add Single Name</label>
+        <div class="input-btn-row">
+          <input type="text" id="single-name-input" class="glass-input" placeholder="Type a name (e.g. Sarah Jenkins)..." maxlength="50">
+          <button id="add-single-btn" class="glass-btn btn-sm btn-primary">
+            <span class="btn-content">➕ Add</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Bulk Add Section -->
+      <div class="input-section">
+        <label for="bulk-names-input" class="section-label">Bulk Add Names (One per line or comma-separated)</label>
+        <textarea id="bulk-names-input" class="glass-textarea" rows="3" placeholder="John Doe&#10;Jane Smith&#10;Alex Morgan..."></textarea>
+        <button id="add-bulk-btn" class="glass-btn btn-sm btn-secondary full-width">
+          <span class="btn-content">📥 Import Bulk Names</span>
+        </button>
+      </div>
+
+      <!-- Current Names List & Actions -->
+      <div class="names-list-section">
+        <div class="section-header-row">
+          <span class="section-label">Current Candidate Pool (<span id="modal-names-count">70</span>)</span>
+          <div class="modal-actions-row">
+            <button id="load-defaults-btn" class="action-link-btn">🔄 Reset to Default 70</button>
+            <button id="clear-all-names-btn" class="action-link-btn danger-link">🗑️ Clear All</button>
+          </div>
+        </div>
+
+        <div class="names-tags-wrapper" id="names-tags-container">
+          <!-- Dynamic name tags rendered here -->
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="save-names-modal-btn" class="glass-btn btn-primary modal-btn">
+          <span class="btn-content">
+            <span class="btn-icon">💾</span>
+            <span class="btn-text">SAVE & CLOSE</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script src="script.js"></script>
+</body>
+</html>
