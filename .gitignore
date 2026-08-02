@@ -1,0 +1,9 @@
+# Ignore everything
+*
+
+# Except the Random Name Picker project files
+!index.html
+!style.css
+!script.js
+!README.md
+!.gitignore
